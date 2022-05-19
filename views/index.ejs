@@ -32,7 +32,7 @@
     async function deleteTask(btn){
         id = btn.getAttribute('user_id')
 
-        res = await fetch("/"+id, {
+        res = await fetch("/todo/"+id, {
             method: 'delete'
         })
 
@@ -46,7 +46,7 @@
 
     async function addTask(){
 
-       res = await fetch("/", {
+       res = await fetch("/todo", {
             method: 'POST',
             headers: {'content-type': 'application/json'},
             body: JSON.stringify({
