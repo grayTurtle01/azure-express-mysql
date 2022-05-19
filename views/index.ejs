@@ -1,0 +1,65 @@
+<h1> Hello Todo-mySQL </h1>
+
+<form onsubmit="addTask(); return false;">
+    <input autofocus>
+    <button>Add New Task</button>
+</form>
+
+<table border=1px>
+
+    <thead>
+        <th>id</th>
+        <th>Content</th>
+    </thead>
+
+    <tbody>
+        <% for( row of rows ) { %>
+        <tr>
+            <td> <%= row.id%> </td>
+            <td> <%= row.content%> </td>
+            <td> <button user_id=<%= row.id %>
+                         onClick="deleteTask(this)" >delete</button> </td>
+        </tr>
+        <%}%>
+    </tbody>
+
+    
+</table>
+
+
+<script>
+    
+    async function deleteTask(btn){
+        id = btn.getAttribute('user_id')
+
+        res = await fetch("/"+id, {
+            method: 'delete'
+        })
+
+        data = await res.json()
+
+        console.log(data)
+
+        location.reload()
+        
+    }
+
+    async function addTask(){
+
+       res = await fetch("/", {
+            method: 'POST',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify({
+                content: document.querySelector("input").value
+
+            })
+       })
+
+       data = await res.json()
+       document.querySelector("input").value = ''
+       console.log(data)
+       location.reload()
+
+    }
+    
+</script>
